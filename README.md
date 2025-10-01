@@ -12,7 +12,7 @@ dependencies: [
 ]
 ```
 
-Or add it through Xcode:
+Alternatively, you can add it using Xcode:
 1. Go to File → Add Package Dependencies
 2. Enter the repository URL: `https://github.com/DataDog/dd-sdk-ios-apollo`
 3. Select the latest version
@@ -36,11 +36,11 @@ class CustomInterceptorProvider: DefaultInterceptorProvider {
 }
 ```
 
-This automatically adds Datadog headers to your GraphQL requests, allowing them to be tracked by Datadog. Note that while `query` and `mutation` type operations are tracked, `subscription` operations are not.
+This automatically adds Datadog headers to your GraphQL requests, enabling them to be tracked by Datadog. Note that while `query` and `mutation` operations are tracked, `subscription` operations are not.
 
 ## Sending GraphQL payloads
 
-GraphQL payload sending is disabled by default. To enable it, set the `sendGraphQLPayloads` flag in the DatadogApollo interceptor constructor as follows:
+Sending GraphQL payloads is disabled by default. To enable it, set the `sendGraphQLPayloads` flag in the DatadogApollo interceptor constructor as shown below:
 
 ```swift
 let datadogInterceptor = DatadogApollo.createInterceptor(sendGraphQLPayloads: true)
@@ -48,7 +48,7 @@ let datadogInterceptor = DatadogApollo.createInterceptor(sendGraphQLPayloads: tr
 
 ## Contributing
 
-For details on contributing, read the [Contributing Guide](CONTRIBUTING.md).
+Contributions are welcome! For details, see the [Contributing Guide](CONTRIBUTING.md).
 
 ## License
 

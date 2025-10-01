@@ -5,7 +5,7 @@ First of all, thanks for contributing!
 This document provides some basic guidelines for contributing to this repository.
 To propose improvements, feel free to submit a PR or open an Issue.
 
-**Note:** Datadog requires that all commits within this repository must be signed, including those within external contribution PRs. Please ensure you have followed GitHub's [Signing Commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) guide before proposing a contribution. PRs lacking signed commits will not be processed and may be rejected.
+**Note:** Datadog requires that all commits to this repository be signed, including those within external contribution PRs. Please ensure you have followed GitHub's [Signing Commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) guide before proposing a contribution. PRs lacking signed commits will not be processed and may be rejected.
 
 ## Have a feature request or idea?
 
@@ -15,9 +15,9 @@ To share your idea or request, [open a GitHub Issue](https://github.com/DataDog/
 
 ## Found a bug?
 
-For any urgent matters (such as outages) or issues concerning the Datadog service or UI, contact our support team via https://docs.datadoghq.com/help/ for direct, faster assistance.
+For any urgent matters (such as outages) or issues concerning the Datadog service or UI, contact our support team through https://docs.datadoghq.com/help/ for direct assistance.
 
-You may submit a bug report concerning the Datadog SDK for iOS by [opening a GitHub Issue](https://github.com/DataDog/dd-sdk-ios-apollo/issues/new/choose). Use appropriate template and provide all listed details to help us resolve the issue.
+You may submit a bug report concerning the Datadog SDK for iOS by [opening a GitHub issue](https://github.com/DataDog/dd-sdk-ios-apollo/issues/new/choose). Use appropriate template and provide all listed details to help us resolve the issue.
 
 ## Have a patch?
 
@@ -27,7 +27,7 @@ Your Pull Request will be run through our CI pipeline, and a project member will
 
 - have a stated goal and detailed description of the changes made;
 - include thorough test coverage and documentation, where applicable;
-- pass all tests and code quality checks on CI;
+- pass all tests and code quality checks in CI;
 - receive at least one approval from a project member with push permissions.
 
-Make sure that your code is clean and readable, that your commits are small and atomic, with a proper commit message.
+Make sure that your code is clean and readable, your commits are small and atomic, and that each commit has a clear message.
