@@ -30,7 +30,7 @@ import DatadogApollo
 class CustomInterceptorProvider: DefaultInterceptorProvider {
     override func interceptors<Operation: GraphQLOperation>(for operation: Operation) -> [ApolloInterceptor] {
         var interceptors = super.interceptors(for: operation)
-        interceptors.insert(DatadogApollo.createInterceptor(), at: 0)
+        interceptors.insert(DatadogApolloInterceptor(), at: 0)
         return interceptors
     }
 }
@@ -43,7 +43,7 @@ This automatically adds Datadog headers to your GraphQL requests, enabling them 
 Sending GraphQL payloads is disabled by default. To enable it, set the `sendGraphQLPayloads` flag in the DatadogApollo interceptor constructor as shown below:
 
 ```swift
-let datadogInterceptor = DatadogApollo.createInterceptor(sendGraphQLPayloads: true)
+let datadogInterceptor = DatadogApolloInterceptor(sendGraphQLPayloads: true)
 ```
 
 ## Contributing

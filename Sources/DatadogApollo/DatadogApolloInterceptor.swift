@@ -14,7 +14,7 @@ import ApolloAPI
 /// and adds them as HTTP headers that can be consumed by Datadog RUM monitoring.
 public class DatadogApolloInterceptor: ApolloInterceptor {
     /// Unique identifier for this interceptor
-    public var id: String = UUID().uuidString
+    public let id: String = UUID().uuidString
 
     /// Whether to include the full GraphQL payload in headers
     private let sendGraphQLPayloads: Bool
@@ -40,8 +40,7 @@ public class DatadogApolloInterceptor: ApolloInterceptor {
         request: HTTPRequest<Operation>,
         response: HTTPResponse<Operation>?,
         completion: @escaping (Result<GraphQLResult<Operation.Data>, any Error>) -> Void
-    ) where Operation
-    : GraphQLOperation {
+    ) where Operation: GraphQLOperation {
         // Extract operation metadata
         let operation = request.operation
         let operationName = type(of: operation).operationName

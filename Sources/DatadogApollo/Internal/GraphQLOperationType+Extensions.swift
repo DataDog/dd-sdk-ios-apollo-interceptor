@@ -7,8 +7,8 @@
 import Foundation
 import ApolloAPI
 
-extension ApolloAPI.GraphQLOperationType {
-    var stringValue: String {
+extension ApolloAPI.GraphQLOperationType: @retroactive CustomStringConvertible {
+    public var description: String {
         switch self {
         case .query:
             return "query"
