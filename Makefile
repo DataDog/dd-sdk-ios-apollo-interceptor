@@ -1,5 +1,5 @@
 all: env-check repo-setup templates
-.PHONY: env-check lint license-check templates clean test spm-build help set-ci-secret \
+.PHONY: env-check lint license-check templates clean test spm-build set-ci-secret help \
 		smoke-test smoke-test-ios smoke-test-ios-all
 
 REPO_ROOT := $(PWD)
