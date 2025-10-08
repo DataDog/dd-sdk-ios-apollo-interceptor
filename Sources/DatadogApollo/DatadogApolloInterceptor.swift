@@ -12,7 +12,7 @@ import ApolloAPI
 /// 
 /// This interceptor extracts GraphQL operation metadata (name, type, variables, payload)
 /// and adds them as HTTP headers that can be consumed by Datadog RUM monitoring.
-public class DatadogApolloInterceptor: ApolloInterceptor {
+public class DatadogApolloInterceptor: ApolloInterceptor, Identifiable {
     /// Unique identifier for this interceptor
     public let id: String = UUID().uuidString
 

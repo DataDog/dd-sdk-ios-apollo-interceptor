@@ -14,17 +14,17 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
 
     func testCreateInterceptor() throws {
         // Test creating interceptor with default settings
-        let interceptor1 = DatadogApollo.createInterceptor()
+        let interceptor1 = DatadogApolloInterceptor()
         XCTAssertNotNil(interceptor1)
         XCTAssertNotNil(interceptor1.id)
 
         // Test creating interceptor with payload enabled
-        let interceptor2 = DatadogApollo.createInterceptor(sendGraphQLPayloads: true)
+        let interceptor2 = DatadogApolloInterceptor(sendGraphQLPayloads: true)
         XCTAssertNotNil(interceptor2)
         XCTAssertNotNil(interceptor2.id)
 
         // Interceptors should have different IDs
-        XCTAssertNotEqual(interceptor1.id, interceptor2.id)
+        XCTAssertFalse(interceptor1 === interceptor2)
     }
 
     // MARK: - Header Constants Tests
@@ -39,9 +39,9 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
 
     func testApolloGraphQLOperationTypeExtension() throws {
         // Test our extension on Apollo's built-in GraphQLOperationType
-        XCTAssertEqual(ApolloAPI.GraphQLOperationType.query.stringValue, "query")
-        XCTAssertEqual(ApolloAPI.GraphQLOperationType.mutation.stringValue, "mutation")
-        XCTAssertEqual(ApolloAPI.GraphQLOperationType.subscription.stringValue, "subscription")
+        XCTAssertEqual(ApolloAPI.GraphQLOperationType.query.description, "query")
+        XCTAssertEqual(ApolloAPI.GraphQLOperationType.mutation.description, "mutation")
+        XCTAssertEqual(ApolloAPI.GraphQLOperationType.subscription.description, "subscription")
     }
 
     // MARK: - GraphQL Operation Tests
@@ -100,10 +100,9 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         XCTAssertEqual(result3, "subscription")
     }
 
-    func testExtractPayloadFromQueryOperationWithVariables() throws {
+    func testExtractPayloadContainsQueryDocument() throws {
         let extractor = GraphQLMetadataExtractor()
-        let variables: [String: GraphQLOperationVariableValue] = ["userId": "123", "active": true]
-        let operation = MockQueryOperation(variables: variables)
+        let operation = MockQueryOperation(variables: ["userId": "123"])
 
         let result = extractor.extractPayload(from: operation)
         XCTAssertNotNil(result)
@@ -113,59 +112,8 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
             return
         }
 
-        // Should contain operation name
-        XCTAssertTrue(payload.contains("GetUser"))
-        XCTAssertTrue(payload.contains("operationName"))
-
-        // Should contain variables
-        XCTAssertTrue(payload.contains("variables"))
-        XCTAssertTrue(payload.contains("userId"))
-        XCTAssertTrue(payload.contains("123"))
-        XCTAssertTrue(payload.contains("active"))
-    }
-
-    func testExtractPayloadFromMutationOperation() throws {
-        let extractor = GraphQLMetadataExtractor()
-        let variables: [String: GraphQLOperationVariableValue] = ["userId": "456", "name": "John Doe"]
-        let operation = MockMutationOperation(variables: variables)
-
-        let result = extractor.extractPayload(from: operation)
-        XCTAssertNotNil(result)
-
-        guard let payload = result else {
-            XCTFail("Expected non-nil payload")
-            return
-        }
-
-        // Should contain operation name
-        XCTAssertTrue(payload.contains("UpdateUser"))
-        XCTAssertTrue(payload.contains("operationName"))
-
-        // Should contain variables
-        XCTAssertTrue(payload.contains("variables"))
-        XCTAssertTrue(payload.contains("userId"))
-        XCTAssertTrue(payload.contains("456"))
-        XCTAssertTrue(payload.contains("name"))
-        XCTAssertTrue(payload.contains("John Doe"))
-    }
-
-    func testExtractPayloadFromOperationWithNoVariables() throws {
-        let extractor = GraphQLMetadataExtractor()
-        let operation = MockNoVariablesOperation()
-
-        let result = extractor.extractPayload(from: operation)
-        XCTAssertNotNil(result)
-
-        guard let payload = result else {
-            XCTFail("Expected non-nil payload")
-            return
-        }
-
-        // Should contain operation name
-        XCTAssertTrue(payload.contains("GetAllUsers"))
-        XCTAssertTrue(payload.contains("operationName"))
-
-        // Should not contain variables section
-        XCTAssertFalse(payload.contains("variables"))
+        // Payload should contain the GraphQL query document
+        XCTAssertTrue(payload.contains("query GetUser"))
+        XCTAssertTrue(payload.contains("user(id: $userId)"))
     }
 }

@@ -35,17 +35,15 @@ internal struct GraphQLMetadataExtractor {
     /// - Parameter operation: The GraphQL operation to analyze
     /// - Returns: The operation type string (query, mutation, subscription), or nil if unknown
     internal func extractOperationType<T: GraphQLOperation>(from operation: T) -> String? {
-        let operationType = T.operationType.description
-
-        if operationType.contains("query") {
+        let operationType = T.operationType
+        switch operationType {
+        case .query:
             return ApolloAPI.GraphQLOperationType.query.description
-        } else if operationType.contains("mutation") {
+        case .mutation:
             return ApolloAPI.GraphQLOperationType.mutation.description
-        } else if operationType.contains("subscription") {
+        case .subscription:
             return ApolloAPI.GraphQLOperationType.subscription.description
         }
-
-        return nil
     }
 
     /// Extracts the full GraphQL operation query as a payload.
