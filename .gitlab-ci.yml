@@ -1,0 +1,67 @@
+stages:
+  - pre
+  - lint
+  - test
+
+variables:
+  MAIN_BRANCH: "main"
+  DEVELOP_BRANCH: "develop"
+
+default:
+  tags:
+    - macos:sonoma
+    - specific:true
+
+# ┌───────────────┐
+# │ Utility jobs: │
+# └───────────────┘
+
+# Define rules for including jobs in the pipeline
+.test-pipeline-job:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $DEVELOP_BRANCH || $CI_COMMIT_BRANCH == $MAIN_BRANCH' # always on main branches
+    - if: '$CI_COMMIT_BRANCH' # when on other branch with following changes compared to develop
+      changes:
+        paths:
+          - "Sources/**/*"
+          - "Tests/**/*"
+          - "*" # match any file in the root directory
+        compare_to: 'develop'
+
+# ┌──────────────┐
+# │ Pre stage:   │
+# └──────────────┘
+
+ENV check:
+  stage: pre
+  rules: 
+    - !reference [.test-pipeline-job, rules]
+  script:
+    - ./tools/runner-setup.sh --datadog-ci
+    - make env-check
+
+# ┌──────────────┐
+# │ Lint stage:  │
+# └──────────────┘
+
+Lint:
+  stage: lint
+  rules: 
+    - !reference [.test-pipeline-job, rules]
+  script:
+    - make clean repo-setup ENV=ci
+    - make lint license-check
+    - make rum-models-verify sr-models-verify
+
+# ┌──────────────┐
+# │ Test stage:  │
+# └──────────────┘
+
+Unit Tests:
+  stage: test
+  rules:
+    - !reference [.test-pipeline-job, rules]
+  script:
+    - ./tools/runner-setup.sh --xcode "$DEFAULT_XCODE"
+    - make clean repo-setup ENV=ci
+    - #make test
