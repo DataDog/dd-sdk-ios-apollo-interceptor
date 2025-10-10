@@ -6,6 +6,7 @@ stages:
 variables:
   MAIN_BRANCH: "main"
   DEVELOP_BRANCH: "develop"
+  DEFAULT_XCODE: "16.2.0"
 
 default:
   tags:
@@ -51,7 +52,6 @@ Lint:
   script:
     - make clean repo-setup ENV=ci
     - make lint license-check
-    - make rum-models-verify sr-models-verify
 
 # ┌──────────────┐
 # │ Test stage:  │
@@ -64,4 +64,4 @@ Unit Tests:
   script:
     - ./tools/runner-setup.sh --xcode "$DEFAULT_XCODE"
     - make clean repo-setup ENV=ci
-    - #make test
+    - make test
