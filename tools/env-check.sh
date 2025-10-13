@@ -50,11 +50,6 @@ check_if_installed gh
 gh --version
 
 echo ""
-echo_succ "vault:"
-check_if_installed vault
-vault -v
-
-echo ""
 echo_succ "bundler:"
 check_if_installed bundler
 bundler --version
@@ -94,8 +89,6 @@ if [ "$CI" = "true" ]; then
     check_if_installed dd-octo-sts
     dd-octo-sts version
 
-    # Check if all secrets are available:
-    ./tools/secrets/check-secrets.sh
 
     echo_subtitle "Print CI env"
     # GitLab:

@@ -38,5 +38,4 @@ spm-build:
 
 clean:
 	@$(ECHO_TITLE) "make clean"
-	swift package clean
-	rm -rf .build
+	./tools/clean.sh --derived-data --pods --xcconfigs
