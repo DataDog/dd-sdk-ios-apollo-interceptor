@@ -8,13 +8,13 @@ To include the integration for [Apollo iOS](https://github.com/apollographql/apo
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/DataDog/dd-sdk-ios-apollo", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/DataDog/dd-sdk-ios-apollo-interceptor", .upToNextMajor(from: "1.0.0"))
 ]
 ```
 
 Alternatively, you can add it using Xcode:
 1. Go to File → Add Package Dependencies
-2. Enter the repository URL: `https://github.com/DataDog/dd-sdk-ios-apollo`
+2. Enter the repository URL: `https://github.com/DataDog/dd-sdk-ios-apollo-interceptor`
 3. Select the latest version
 
 ## Initial setup
