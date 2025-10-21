@@ -9,7 +9,7 @@ import Foundation
 /// Headers used internally for intercepting GraphQL requests.
 internal struct GraphQLHeaders {
     static let operationNameHeader = "_dd-custom-header-graph-ql-operation-name"
-    static let operationTypeHeader = "_dd-custom-header-graph-ql-operation_type"
+    static let operationTypeHeader = "_dd-custom-header-graph-ql-operation-type"
     static let variablesHeader = "_dd-custom-header-graph-ql-variables"
     static let payloadHeader = "_dd-custom-header-graph-ql-payload"
 }

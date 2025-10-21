@@ -32,7 +32,7 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
     func testGraphQLHeadersConstants() throws {
         // Verify header constants match Android implementation
         XCTAssertEqual(GraphQLHeaders.operationNameHeader, "_dd-custom-header-graph-ql-operation-name")
-        XCTAssertEqual(GraphQLHeaders.operationTypeHeader, "_dd-custom-header-graph-ql-operation_type")
+        XCTAssertEqual(GraphQLHeaders.operationTypeHeader, "_dd-custom-header-graph-ql-operation-type")
         XCTAssertEqual(GraphQLHeaders.variablesHeader, "_dd-custom-header-graph-ql-variables")
         XCTAssertEqual(GraphQLHeaders.payloadHeader, "_dd-custom-header-graph-ql-payload")
     }
