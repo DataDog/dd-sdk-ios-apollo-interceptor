@@ -31,7 +31,8 @@ templates:
 
 test:
 	@$(ECHO_TITLE) "make test"
-	swift test
+	# swift test
+	# TODO: Re-enable testing once we have sources and tests
 
 spm-build:
 	@$(ECHO_TITLE) "make spm-build"
