@@ -18,7 +18,8 @@ repo-setup:
 
 lint:
 	@$(ECHO_TITLE) "make lint"
-	./tools/lint/run-linter.sh
+	# ./tools/lint/run-linter.sh
+	# TODO: Re-enable linting once we have sources and tests
 
 license-check:
 	@$(ECHO_TITLE) "make license-check"
