@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.0
 
 import PackageDescription
 
@@ -14,13 +14,13 @@ let package = Package(
         .library(
             name: "DatadogApollo",
             targets: ["DatadogApollo"]
-        ),
+        )
     ],
     dependencies: [
         .package(
             url: "https://github.com/apollographql/apollo-ios.git",
             .upToNextMajor(from: "1.0.0")
-        ),
+        )
     ],
     targets: [
         .target(
@@ -33,6 +33,6 @@ let package = Package(
         .testTarget(
             name: "DatadogApolloTests",
             dependencies: ["DatadogApollo"]
-        ),
-    ],
+        )
+    ]
 )

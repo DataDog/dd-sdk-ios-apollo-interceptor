@@ -18,8 +18,7 @@ repo-setup:
 
 lint:
 	@$(ECHO_TITLE) "make lint"
-	# ./tools/lint/run-linter.sh
-	# TODO: Re-enable linting once we have sources and tests
+	./tools/lint/run-linter.sh
 
 license-check:
 	@$(ECHO_TITLE) "make license-check"
@@ -31,8 +30,7 @@ templates:
 
 test:
 	@$(ECHO_TITLE) "make test"
-	# swift test
-	# TODO: Re-enable testing once we have sources and tests
+	swift test
 
 spm-build:
 	@$(ECHO_TITLE) "make spm-build"
