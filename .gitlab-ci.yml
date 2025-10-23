@@ -2,11 +2,13 @@ stages:
   - pre
   - lint
   - test
+  - smoke-test
 
 variables:
   MAIN_BRANCH: "main"
   DEVELOP_BRANCH: "develop"
   DEFAULT_XCODE: "16.2.0"
+  DEFAULT_IOS_OS: "18.6"
 
 default:
   tags:
@@ -65,3 +67,19 @@ Unit Tests:
     - ./tools/runner-setup.sh --xcode "$DEFAULT_XCODE"
     - make clean repo-setup ENV=ci
     - make test
+
+# ┌────────────────────┐
+# │ Smoke Test stage:  │
+# └────────────────────┘
+
+Smoke Tests (iOS):
+  stage: smoke-test
+  rules:
+    - !reference [.test-pipeline-job, rules]
+  variables:
+    PLATFORM: "iOS Simulator"
+    DEVICE: "iPhone 16 Pro"
+  script:
+    - ./tools/runner-setup.sh --xcode "$DEFAULT_XCODE"
+    - make clean repo-setup ENV=ci
+    - make smoke-test-ios-all OS="$DEFAULT_IOS_OS" PLATFORM="$PLATFORM" DEVICE="$DEVICE"
