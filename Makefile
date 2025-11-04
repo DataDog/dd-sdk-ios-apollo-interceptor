@@ -1,6 +1,7 @@
 all: env-check repo-setup templates
 .PHONY: env-check lint license-check templates clean test spm-build set-ci-secret help \
-		smoke-test smoke-test-ios smoke-test-ios-all
+		smoke-test smoke-test-ios smoke-test-ios-all \
+		release-build release-validate release-publish-github release-publish-podspecs
 
 REPO_ROOT := $(PWD)
 include tools/utils/common.mk
@@ -71,3 +72,42 @@ smoke-test-ios:
 # Run all smoke tests using iOS Simulator
 smoke-test-ios-all:
 	@$(MAKE) smoke-test-ios TEST_DIRECTORY="SmokeTests/spm"
+
+# ┌──────────────┐
+# │ SDK release: │
+# └──────────────┘
+
+# Builds release artifacts for given tag
+release-build:
+	@$(call require_param,GIT_TAG)
+	@$(call require_param,ARTIFACTS_PATH)
+	@$(ECHO_TITLE) "make release-build GIT_TAG='$(GIT_TAG)' ARTIFACTS_PATH='$(ARTIFACTS_PATH)'"
+	./tools/release/build.sh --tag "$(GIT_TAG)" --artifacts-path "$(ARTIFACTS_PATH)"
+
+# Validate release artifacts for given tag
+release-validate:
+	@$(call require_param,GIT_TAG)
+	@$(call require_param,ARTIFACTS_PATH)
+	@$(ECHO_TITLE) "make release-validate GIT_TAG='$(GIT_TAG)' ARTIFACTS_PATH='$(ARTIFACTS_PATH)'"
+	./tools/release/validate-version.sh --artifacts-path "$(ARTIFACTS_PATH)" --tag "$(GIT_TAG)"
+	./tools/release/validate-xcframeworks.sh --artifacts-path "$(ARTIFACTS_PATH)"
+
+# Publish GitHub asset to GH release
+release-publish-github:
+	@$(call require_param,GIT_TAG)
+	@$(call require_param,ARTIFACTS_PATH)
+	@:$(eval DRY_RUN ?= 1)
+	@:$(eval OVERWRITE_EXISTING ?= 0)
+	@$(ECHO_TITLE) "make release-publish-github GIT_TAG='$(GIT_TAG)' ARTIFACTS_PATH='$(ARTIFACTS_PATH)' DRY_RUN='$(DRY_RUN)' OVERWRITE_EXISTING='$(OVERWRITE_EXISTING)'"
+	DRY_RUN=$(DRY_RUN) OVERWRITE_EXISTING=$(OVERWRITE_EXISTING) ./tools/release/publish-github.sh \
+		 --artifacts-path "$(ARTIFACTS_PATH)" \
+		 --tag "$(GIT_TAG)"
+
+# Publish Cocoapods podspecs to trunk
+release-publish-podspecs:
+	@$(call require_param,ARTIFACTS_PATH)
+	@:$(eval DRY_RUN ?= 1)
+	@$(ECHO_TITLE) "make release-publish-podspecs ARTIFACTS_PATH='$(ARTIFACTS_PATH)' DRY_RUN='$(DRY_RUN)'"
+	DRY_RUN=$(DRY_RUN) ./tools/release/publish-podspec.sh \
+		--artifacts-path "$(ARTIFACTS_PATH)" \
+		--podspec-name "DatadogApollo.podspec"
