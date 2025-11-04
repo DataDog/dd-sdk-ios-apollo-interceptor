@@ -16,15 +16,10 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         // Test creating interceptor with default settings
         let interceptor1 = DatadogApolloInterceptor()
         XCTAssertNotNil(interceptor1)
-        XCTAssertNotNil(interceptor1.id)
 
         // Test creating interceptor with payload enabled
         let interceptor2 = DatadogApolloInterceptor(sendGraphQLPayloads: true)
         XCTAssertNotNil(interceptor2)
-        XCTAssertNotNil(interceptor2.id)
-
-        // Interceptors should have different IDs
-        XCTAssertFalse(interceptor1 === interceptor2)
     }
 
     // MARK: - Header Constants Tests

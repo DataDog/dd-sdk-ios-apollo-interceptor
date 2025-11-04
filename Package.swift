@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
     name: "DatadogApollo",
     platforms: [
-        .iOS(.v12),
-        .tvOS(.v12),
+        .iOS(.v15),
+        .tvOS(.v15),
         .macOS(.v12),
-        .watchOS(.v7)
+        .watchOS(.v8)
     ],
     products: [
         .library(
@@ -19,7 +19,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/apollographql/apollo-ios.git",
-            .upToNextMajor(from: "1.0.0")
+            .upToNextMajor(from: "2.0.0")
         )
     ],
     targets: [

@@ -6,18 +6,15 @@
 
 import Foundation
 import Apollo
-#if !COCOAPODS
-import ApolloAPI
-#endif
+@_spi(Unsafe) import ApolloAPI
 
 /// Apollo interceptor that adds Datadog GraphQL monitoring headers to outgoing requests.
 /// 
 /// This interceptor extracts GraphQL operation metadata (name, type, variables, payload)
 /// and adds them as HTTP headers that can be consumed by Datadog RUM monitoring.
-public class DatadogApolloInterceptor: ApolloInterceptor, Identifiable {
-    /// Unique identifier for this interceptor
-    public var id: String = UUID().uuidString
-
+///
+/// - Note: This interceptor is compatible with Apollo iOS 2.0+ which uses structured concurrency.
+public struct DatadogApolloInterceptor: GraphQLInterceptor {
     /// Whether to include the full GraphQL payload in headers
     private let sendGraphQLPayloads: Bool
 
@@ -33,48 +30,41 @@ public class DatadogApolloInterceptor: ApolloInterceptor, Identifiable {
 
     /// Intercepts the Apollo request and adds Datadog GraphQL monitoring headers.
     /// - Parameters:
-    ///   - chain: The interceptor chain to continue processing
-    ///   - request: The Apollo request to process
-    ///   - response: The response from previous interceptors
-    ///   - completion: Completion handler to call when processing is done
-    public func interceptAsync<Operation>(
-        chain: any RequestChain,
-        request: HTTPRequest<Operation>,
-        response: HTTPResponse<Operation>?,
-        completion: @escaping (Result<GraphQLResult<Operation.Data>, any Error>) -> Void
-    ) where Operation: GraphQLOperation {
+    ///   - request: The GraphQL request to process
+    ///   - next: The next interceptor function to call
+    /// - Returns: The stream of parsed results
+    public func intercept<Request: GraphQLRequest>(
+        request: Request,
+        next: NextInterceptorFunction<Request>
+    ) async throws -> InterceptorResultStream<Request> {
         // Extract operation metadata
+        var modifiedRequest = request
         let operation = request.operation
         let operationName = type(of: operation).operationName
         let operationType = metadataExtractor.extractOperationType(from: operation)
         let operationVariables = metadataExtractor.extractVariables(from: operation)
 
         // Add GraphQL operation name header
-        request.addHeader(name: GraphQLHeaders.operationNameHeader, value: operationName)
+        modifiedRequest.addHeader(name: GraphQLHeaders.operationNameHeader, value: operationName)
 
         // Add GraphQL operation type header if available
         if let operationType = operationType {
-            request.addHeader(name: GraphQLHeaders.operationTypeHeader, value: operationType)
+            modifiedRequest.addHeader(name: GraphQLHeaders.operationTypeHeader, value: operationType)
         }
 
         // Add GraphQL variables header if available
         if let operationVariables = operationVariables {
-            request.addHeader(name: GraphQLHeaders.variablesHeader, value: operationVariables)
+            modifiedRequest.addHeader(name: GraphQLHeaders.variablesHeader, value: operationVariables)
         }
 
         // Add GraphQL payload header if enabled and available
         if sendGraphQLPayloads {
             if let operationPayload = metadataExtractor.extractPayload(from: operation) {
-                request.addHeader(name: GraphQLHeaders.payloadHeader, value: operationPayload)
+                modifiedRequest.addHeader(name: GraphQLHeaders.payloadHeader, value: operationPayload)
             }
         }
 
         // Continue with the modified request
-        chain.proceedAsync(
-            request: request,
-            response: response,
-            interceptor: self,
-            completion: completion
-        )
+        return await next(modifiedRequest)
     }
 }
