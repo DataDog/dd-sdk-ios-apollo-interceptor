@@ -1,7 +1,6 @@
 all: env-check repo-setup templates
 .PHONY: env-check lint license-check templates clean test spm-build set-ci-secret help \
-		smoke-test smoke-test-ios smoke-test-ios-all \
-		release-publish-podspecs bump
+		smoke-test smoke-test-ios smoke-test-ios-all bump
 
 REPO_ROOT := $(PWD)
 include tools/utils/common.mk
@@ -72,25 +71,14 @@ smoke-test-ios:
 # Run all smoke tests using iOS Simulator
 smoke-test-ios-all:
 	@$(MAKE) smoke-test-ios TEST_DIRECTORY="SmokeTests/spm"
-	@$(MAKE) smoke-test-ios TEST_DIRECTORY="SmokeTests/cocoapods"
 
 # ┌──────────────┐
 # │ SDK release: │
 # └──────────────┘
 
-# Publish Cocoapods podspecs to trunk
-release-publish-podspecs:
-	@$(call require_param,ARTIFACTS_PATH)
-	@:$(eval DRY_RUN ?= 1)
-	@$(ECHO_TITLE) "make release-publish-podspecs ARTIFACTS_PATH='$(ARTIFACTS_PATH)' DRY_RUN='$(DRY_RUN)'"
-	DRY_RUN=$(DRY_RUN) ./tools/release/publish-podspec.sh \
-		--artifacts-path "$(ARTIFACTS_PATH)" \
-		--podspec-name "DatadogApollo.podspec"
-
 bump:
 	@read -p "Enter version number: " version;  \
 	echo "// GENERATED FILE: Do not edit directly\n\ninternal let __sdkVersion = \"$$version\"" > Sources/DatadogApollo/Versioning.swift; \
-	./tools/podspec_bump_version.sh $$version; \
 	git add . ; \
 	git commit -m "Bumped version to $$version"; \
 	echo Bumped version to $$version
