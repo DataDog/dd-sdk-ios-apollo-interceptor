@@ -16,6 +16,8 @@ extension ApolloAPI.GraphQLOperationType: @retroactive CustomStringConvertible {
             return "mutation"
         case .subscription:
             return "subscription"
+        @unknown default:
+            return "unknown"
         }
     }
 }

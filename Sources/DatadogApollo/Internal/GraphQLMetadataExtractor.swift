@@ -43,6 +43,8 @@ internal struct GraphQLMetadataExtractor {
             return ApolloAPI.GraphQLOperationType.mutation.description
         case .subscription:
             return ApolloAPI.GraphQLOperationType.subscription.description
+        @unknown default:
+            return nil
         }
     }
 
