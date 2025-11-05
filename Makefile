@@ -1,5 +1,5 @@
 all: lint templates
-.PHONY: env-check lint license-check templates clean test spm-build help
+.PHONY: env-check lint license-check templates clean test spm-build set-ci-secret help
 
 REPO_ROOT := $(PWD)
 include tools/utils/common.mk
@@ -39,3 +39,8 @@ spm-build:
 clean:
 	@$(ECHO_TITLE) "make clean"
 	./tools/clean.sh --derived-data --pods --xcconfigs
+
+# Set or update CI secrets
+set-ci-secret:
+	@$(ECHO_TITLE) "make set-ci-secret"
+	@./tools/secrets/set-secret.sh
