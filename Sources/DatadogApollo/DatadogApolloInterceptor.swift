@@ -6,7 +6,8 @@
 
 import Foundation
 import Apollo
-@_spi(Unsafe) import ApolloAPI
+@_spi(Unsafe)
+import ApolloAPI
 
 /// Apollo interceptor that adds Datadog GraphQL monitoring headers to outgoing requests.
 /// 
