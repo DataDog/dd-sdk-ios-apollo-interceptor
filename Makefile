@@ -1,4 +1,4 @@
-all: all: env-check repo-setup templates
+all: env-check repo-setup templates
 .PHONY: env-check lint license-check templates clean test spm-build help set-ci-secret \
 		smoke-test smoke-test-ios smoke-test-ios-all
 
