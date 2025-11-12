@@ -14,5 +14,5 @@ To update the setup in `SPMProject.xcodeproj`, use:
 ```bash
 make create-src-from-xcodeproj
 ```
-to apply the change back to the `SPMProject.xcodeproj.src`, so it can be committed to git.
+Running the command applies the change back to the `SPMProject.xcodeproj.src`, so the change can be committed to Git.
 
