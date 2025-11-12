@@ -15,4 +15,3 @@ class SPMProjectTests: XCTestCase {
         XCTAssertNotNil(viewController.view)
     }
 }
-

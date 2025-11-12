@@ -84,3 +84,4 @@ custom_rules:
 
 included:
   - ../../Tests
+  - ../../SmokeTests

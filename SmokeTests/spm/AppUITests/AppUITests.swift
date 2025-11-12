@@ -16,4 +16,3 @@ class SPMProjectUITests: XCTestCase {
         app.launch()
     }
 }
-

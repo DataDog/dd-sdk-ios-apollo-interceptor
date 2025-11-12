@@ -12,14 +12,11 @@ internal class ViewController: UIViewController {
         super.viewDidLoad()
 
         // Test that DatadogApollo APIs are visible and can be instantiated:
-        let interceptor = DatadogApolloInterceptor()
-        let interceptorWithPayloads = DatadogApolloInterceptor(sendGraphQLPayloads: true)
-        
-        // Verify the interceptors are not nil
-        if interceptor as Any? != nil && interceptorWithPayloads as Any? != nil {
-            print("✓ DatadogApolloInterceptor successfully created")
-            print("✓ DatadogApolloInterceptor with payloads successfully created")
-        }
+        _ = DatadogApolloInterceptor()
+        _ = DatadogApolloInterceptor(sendGraphQLPayloads: true)
+
+        print("✓ DatadogApolloInterceptor successfully created")
+        print("✓ DatadogApolloInterceptor with payloads successfully created")
 
         addLabel()
     }
@@ -35,4 +32,3 @@ internal class ViewController: UIViewController {
         label.center = view.center
     }
 }
-
