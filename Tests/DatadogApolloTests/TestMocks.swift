@@ -44,6 +44,8 @@ internal final class MockData: RootSelectionSet {
     }
 
     static var __selections: [ApolloAPI.Selection] { [] }
+
+    static var __fulfilledFragments: [any SelectionSet.Type] { [Self.self] }
 }
 
 // MARK: - Mock GraphQL Operations for Testing
