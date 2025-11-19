@@ -7,6 +7,12 @@ Package.resolved
 Carthage/Build
 Carthage/Checkouts
 
+# CocoaPods
+Pods/
+Podfile.lock
+**/SmokeTests/**/Podfile
+!**/SmokeTests/**/Podfile.src
+
 xcuserdata/
 *.local.xcconfig
 E2ETests/code-signing

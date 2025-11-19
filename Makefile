@@ -72,6 +72,7 @@ smoke-test-ios:
 # Run all smoke tests using iOS Simulator
 smoke-test-ios-all:
 	@$(MAKE) smoke-test-ios TEST_DIRECTORY="SmokeTests/spm"
+	@$(MAKE) smoke-test-ios TEST_DIRECTORY="SmokeTests/cocoapods"
 
 # ┌──────────────┐
 # │ SDK release: │

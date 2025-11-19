@@ -6,7 +6,9 @@
 
 import Foundation
 import Apollo
+#if !COCOAPODS
 import ApolloAPI
+#endif
 
 /// Utility for extracting GraphQL operation metadata for monitoring purposes.
 internal struct GraphQLMetadataExtractor {
@@ -38,11 +40,11 @@ internal struct GraphQLMetadataExtractor {
         let operationType = T.operationType
         switch operationType {
         case .query:
-            return ApolloAPI.GraphQLOperationType.query.description
+            return "query"
         case .mutation:
-            return ApolloAPI.GraphQLOperationType.mutation.description
+            return "mutation"
         case .subscription:
-            return ApolloAPI.GraphQLOperationType.subscription.description
+            return "subscription"
         @unknown default:
             return nil
         }
