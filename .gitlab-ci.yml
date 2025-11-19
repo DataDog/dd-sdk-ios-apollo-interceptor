@@ -7,8 +7,8 @@ stages:
 variables:
   MAIN_BRANCH: "main"
   DEVELOP_BRANCH: "develop"
-  DEFAULT_XCODE: "16.2.0"
-  DEFAULT_IOS_OS: "18.3.1"
+  DEFAULT_XCODE: "16.3.0"
+  DEFAULT_IOS_OS: "18.4"
   # Prefilled variables for running a pipeline manually:
   # Ref.: https://docs.gitlab.com/ee/ci/pipelines/index.html#prefill-variables-in-manual-pipelines
   RELEASE_GIT_TAG:
