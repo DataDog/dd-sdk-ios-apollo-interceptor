@@ -5,7 +5,9 @@
  */
 
 import Foundation
-@_spi(Execution) @_spi(Unsafe) @preconcurrency import ApolloAPI
+@_spi(Execution)
+@_spi(Unsafe)
+@preconcurrency import ApolloAPI
 
 // MARK: - Mock Data Structures
 
@@ -39,7 +41,7 @@ internal struct MockData: RootSelectionSet {
         self.init(_dataDict: ApolloAPI.DataDict(data: [:], fulfilledFragments: []))
     }
 
-    static var __parentType: any ApolloAPI.ParentType { 
+    static var __parentType: any ApolloAPI.ParentType {
         ApolloAPI.Object(typename: "Query", implementedInterfaces: [])
     }
     static var __selections: [ApolloAPI.Selection] { [] }
