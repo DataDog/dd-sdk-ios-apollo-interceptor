@@ -5,9 +5,12 @@
  */
 
 import Foundation
+import Apollo
+#if !COCOAPODS
 import ApolloAPI
+#endif
 
-extension ApolloAPI.GraphQLOperationType: @retroactive CustomStringConvertible {
+extension GraphQLOperationType: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .query:

@@ -593,7 +593,7 @@
 			repositoryURL = "https://github.com/DataDog/dd-sdk-ios-apollo-interceptor";
 			requirement = {
 				kind = branch;
-				branch = bplasovska/RUM-11893/cocoapods-setup;
+				branch = develop;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
