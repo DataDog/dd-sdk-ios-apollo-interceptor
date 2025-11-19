@@ -37,13 +37,6 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         XCTAssertEqual(GraphQLHeaders.payloadHeader, "_dd-custom-header-graph-ql-payload")
     }
 
-    func testApolloGraphQLOperationTypeExtension() throws {
-        // Test our extension on Apollo's built-in GraphQLOperationType
-        XCTAssertEqual(ApolloAPI.GraphQLOperationType.query.description, "query")
-        XCTAssertEqual(ApolloAPI.GraphQLOperationType.mutation.description, "mutation")
-        XCTAssertEqual(ApolloAPI.GraphQLOperationType.subscription.description, "subscription")
-    }
-
     // MARK: - GraphQL Operation Tests
 
     func testExtractPayloadWithEmptyOperationName() throws {

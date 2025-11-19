@@ -38,8 +38,16 @@ internal struct GraphQLMetadataExtractor {
     /// - Returns: The operation type string (query, mutation, subscription), or nil if unknown
     internal func extractOperationType<T: GraphQLOperation>(from operation: T) -> String? {
         let operationType = T.operationType
-        // Use our CustomStringConvertible extension
-        return operationType.description
+        switch operationType {
+        case .query:
+            return "query"
+        case .mutation:
+            return "mutation"
+        case .subscription:
+            return "subscription"
+        @unknown default:
+            return nil
+        }
     }
 
     /// Extracts the full GraphQL operation query as a payload.
