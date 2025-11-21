@@ -11,10 +11,8 @@ DD_APOLLO_SECRETS_PATH_PREFIX='kv/aws/arn:aws:iam::486234852809:role/ci-dd-sdk-i
 
 # Secrets needed for release process only
 DD_APOLLO_SECRET__CP_TRUNK_TOKEN="cocoapods.trunk.token"
-DD_APOLLO_SECRET__SSH_KEY="ssh.key"
 
 idx=0
 declare -A DD_APOLLO_SECRETS
 DD_APOLLO_SECRETS[$((idx++))]="$DD_APOLLO_SECRET__CP_TRUNK_TOKEN | Cocoapods token to authenticate 'pod trunk' operations (https://guides.cocoapods.org/terminal/commands.html)"
-DD_APOLLO_SECRETS[$((idx++))]="$DD_APOLLO_SECRET__SSH_KEY | SSH key to authenticate 'git clone git@github.com:...' operations"
 
