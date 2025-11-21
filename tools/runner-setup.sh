@@ -10,7 +10,6 @@
 #   --tvOS: Install the tvOS platform with the latest simulator if not already installed. Default: disabled.
 #   --visionOS: Install the visionOS platform with the latest simulator if not already installed. Default: disabled.
 #   --watchOS: Install the watchOS platform with the latest simulator if not already installed. Default: disabled.
-#   --ssh: Configure SSH for git operations. Default: disabled.
 #   --datadog-ci: Install 'datadog-ci' on the runner. Default: disabled.
 #   --python: Ensure Python 3 and pip are available. Default: disabled.
 
@@ -25,7 +24,6 @@ define_arg "iOS" "false" "Install the iOS platform with the latest simulator if 
 define_arg "tvOS" "false" "Install the tvOS platform with the latest simulator if not already installed. Default: disabled." "store_true"
 define_arg "visionOS" "false" "Install the visionOS platform with the latest simulator if not already installed. Default: disabled." "store_true"
 define_arg "watchOS" "false" "Install the watchOS platform with the latest simulator if not already installed. Default: disabled." "store_true"
-define_arg "ssh" "false" "Configure SSH for git operations. Default: disabled." "store_true"
 define_arg "datadog-ci" "false" "Install 'datadog-ci' on the runner. Default: disabled." "store_true"
 define_arg "python" "false" "Ensure Python 3 and pip are available. Default: disabled." "store_true"
 
@@ -100,30 +98,6 @@ if [ "$watchOS" = "true" ]; then
     echo_subtitle "Install watchOS platform"
     echo "▸ xcodebuild -downloadPlatform watchOS -quiet"
     xcodebuild -downloadPlatform watchOS -quiet
-fi
-
-if [ "$ssh" = "true" ]; then
-    # Adds SSH config, so we can git clone GH repos.
-    echo_subtitle "Add SSH configuration"
-    SSH_KEY_PATH="$HOME/.ssh/id_ed25519"
-    SSH_CONFIG_PATH="$HOME/.ssh/config"
-
-    if [ ! -f "$SSH_KEY_PATH" ] || [ ! -f "$SSH_CONFIG_PATH" ]; then
-        echo_warn "Found no SSH key or SSH config file. Configuring..."
-        get_secret $DD_APOLLO_SECRET__SSH_KEY > $SSH_KEY_PATH
-        chmod 600 "$SSH_KEY_PATH"
-
-        cat <<EOF > "$HOME/.ssh/config"
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile $SSH_KEY_PATH
-    StrictHostKeyChecking no
-EOF
-        echo_succ "Finished SSH setup."
-    else
-        echo_succ "SSH key and config file already exist. Skipping..."
-    fi
 fi
 
 if [ "$datadog_ci" = "true" ]; then
