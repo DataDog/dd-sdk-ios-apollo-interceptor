@@ -22,10 +22,20 @@ internal struct GraphQLMetadataExtractor {
             return nil
         }
 
-        // Use Apollo's built-in JSONEncodable conversion to handle proper serialization
-        let jsonEncodableDict = variables._jsonEncodableObject
+        // Convert each variable to its _jsonValue representation to ensure JSON-serializability.
+        // We use _jsonValue instead of _jsonEncodableObject to properly handle types like
+        // GraphQLEnum that need conversion before serialization.
+        let jsonValueDict = variables.mapValues { variableValue -> Any in
+            // Use _jsonEncodableValue to get the JSONEncodable, then extract _jsonValue
+            if let encodable = variableValue._jsonEncodableValue {
+                return encodable._jsonValue
+            }
+            // Fallback to the variable value itself if it doesn't have an encodable value
+            return variableValue
+        }
+
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonEncodableDict, options: [])
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonValueDict, options: [])
             return String(data: jsonData, encoding: .utf8)
         } catch {
             // If serialization fails, return nil to avoid breaking the request
