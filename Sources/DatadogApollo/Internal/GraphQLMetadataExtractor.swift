@@ -27,11 +27,8 @@ internal struct GraphQLMetadataExtractor {
         // GraphQLEnum that need conversion before serialization.
         let jsonValueDict = variables.mapValues { variableValue -> Any in
             // Use _jsonEncodableValue to get the JSONEncodable, then extract _jsonValue
-            if let encodable = variableValue._jsonEncodableValue {
-                return encodable._jsonValue
-            }
             // Fallback to the variable value itself if it doesn't have an encodable value
-            return variableValue
+            return variableValue._jsonEncodableValue?._jsonValue ?? variableValue
         }
 
         do {
