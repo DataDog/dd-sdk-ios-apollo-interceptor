@@ -20,13 +20,13 @@ dependencies: [
 Alternatively, you can add it using Xcode:
 1. Go to File → Add Package Dependencies
 2. Enter the repository URL: `https://github.com/DataDog/dd-sdk-ios-apollo-interceptor`
-3. Select version 1.x.x for Apollo iOS 1.0+ or version 2.x.x for Apollo iOS 2.0+
+3. Select the package version that matches your Apollo major version (choose 1.x.x for Apollo iOS 1.0+ or 2.x.x for Apollo iOS 2.0+).
 
 ## Initial setup
 
 ### For Apollo iOS 1.0+
 
-1. Set up RUM monitoring with the [Datadog iOS RUM SDK](https://docs.datadoghq.com/real_user_monitoring/ios/):
+1. Set up RUM monitoring with the [Datadog iOS SDK](https://docs.datadoghq.com/real_user_monitoring/ios/):
 2. Set up network instrumentation for Apollo's built-in URLSessionClient:
 
 ```swift
@@ -52,7 +52,7 @@ class CustomInterceptorProvider: DefaultInterceptorProvider {
 
 ### For Apollo iOS 2.0+
 
-1. Set up RUM monitoring with the [Datadog iOS RUM SDK](https://docs.datadoghq.com/real_user_monitoring/ios/):
+1. Set up RUM monitoring with the [Datadog iOS SDK](https://docs.datadoghq.com/real_user_monitoring/ios/):
 2. Set up network instrumentation.
 
 Apollo 2.0 requires creating a custom URLSession delegate (unlike Apollo 1.0 which uses the built-in `URLSessionClient`):
@@ -65,7 +65,7 @@ class ApolloURLSessionDelegate: NSObject, URLSessionDataDelegate {
 }
 ```
 
-Then enable instrumentation for your custom delegate:
+Then, enable instrumentation for your custom delegate:
 
 ```swift
 URLSessionInstrumentation.enable(with: .init(delegateClass: ApolloURLSessionDelegate.self))
