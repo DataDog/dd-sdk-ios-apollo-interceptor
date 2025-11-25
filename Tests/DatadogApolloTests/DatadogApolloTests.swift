@@ -109,4 +109,24 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         XCTAssertTrue(payload.contains("query GetUser"))
         XCTAssertTrue(payload.contains("user(id: $userId)"))
     }
+
+    // MARK: - GraphQL Enum Variables Tests
+
+    func testExtractVariablesWithGraphQLEnum() throws {
+        // Test that GraphQLEnum types are properly serialized to JSON
+        let extractor = GraphQLMetadataExtractor()
+        let operation = MockOperationWithGraphQLEnum(id: "test-123", enumValue: .optionB)
+
+        let result = extractor.extractVariables(from: operation)
+
+        XCTAssertNotNil(result)
+        guard let variables = result else {
+            XCTFail("Expected non-nil variables")
+            return
+        }
+
+        // Verify the enum is serialized as its string value
+        XCTAssertTrue(variables.contains("OPTION_B"))
+        XCTAssertTrue(variables.contains("test-123"))
+    }
 }

@@ -130,3 +130,32 @@ internal class MockNoVariablesOperation: GraphQLOperation {
 
     var __variables: [String: GraphQLOperationVariableValue]? = nil
 }
+
+// MARK: - Mock GraphQL Enum for Testing
+
+/// Mock enum for testing GraphQLEnum serialization
+internal enum MockEnumValue: String, Sendable, EnumType {
+    case optionA = "OPTION_A"
+    case optionB = "OPTION_B"
+    case optionC = "OPTION_C"
+}
+
+/// Mock operation with GraphQLEnum variables for testing serialization
+internal class MockOperationWithGraphQLEnum: GraphQLOperation {
+    typealias Data = MockData
+
+    static let operationName: String = "QueryWithEnum"
+    static let operationType: GraphQLOperationType = .query
+    static let operationDocument: ApolloAPI.OperationDocument = .init(
+        definition: .init("query QueryWithEnum($id: ID!, $enumValue: EnumValue!) { item(id: $id, enumValue: $enumValue) { id } }")
+    )
+
+    var __variables: [String: GraphQLOperationVariableValue]?
+
+    init(id: String, enumValue: MockEnumValue) {
+        self.__variables = [
+            "id": id,
+            "enumValue": GraphQLEnum(enumValue)
+        ]
+    }
+}
