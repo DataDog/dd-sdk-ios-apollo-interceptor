@@ -136,14 +136,22 @@ internal struct MockNoVariablesOperation: GraphQLOperation {
 // MARK: - Mock GraphQL Enum for Testing
 
 /// Mock enum for testing GraphQLEnum serialization
-internal enum MockEnumValue: String, Sendable, EnumType {
+internal enum MockEnumValue: String, CaseIterable, Sendable, EnumType {
     case optionA = "OPTION_A"
     case optionB = "OPTION_B"
     case optionC = "OPTION_C"
+
+    var _jsonEncodableValue: (any ApolloAPI.JSONEncodable)? {
+        return self.rawValue
+    }
+
+    var _jsonValue: ApolloAPI.JSONValue {
+        return self.rawValue
+    }
 }
 
 /// Mock operation with GraphQLEnum variables for testing serialization
-internal class MockOperationWithGraphQLEnum: GraphQLOperation {
+internal struct MockOperationWithGraphQLEnum: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = "QueryWithEnum"
