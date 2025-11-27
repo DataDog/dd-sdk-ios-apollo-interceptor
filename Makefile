@@ -1,5 +1,5 @@
 all: env-check repo-setup templates
-.PHONY: env-check lint license-check templates clean test spm-build set-ci-secret help \
+.PHONY: env-check lint license-check templates clean test spm-build help \
 		smoke-test smoke-test-ios smoke-test-ios-all bump
 
 REPO_ROOT := $(PWD)
@@ -45,11 +45,6 @@ spm-build:
 clean:
 	@$(ECHO_TITLE) "make clean"
 	./tools/clean.sh --derived-data --pods --xcconfigs
-
-# Set or update CI secrets
-set-ci-secret:
-	@$(ECHO_TITLE) "make set-ci-secret"
-	@./tools/secrets/set-secret.sh
 
 # Run smoke tests
 smoke-test:
