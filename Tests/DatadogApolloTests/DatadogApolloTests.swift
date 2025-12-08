@@ -110,7 +110,7 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         XCTAssertTrue(payload.contains("user(id: $userId)"))
     }
 
-    // MARK: - GraphQL Enum Variables Tests
+    // MARK: - GraphQL Variables Tests
 
     func testExtractVariablesWithGraphQLEnum() throws {
         // Test that GraphQLEnum types are properly serialized to JSON
@@ -128,5 +128,33 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         // Verify the enum is serialized as its string value
         XCTAssertTrue(variables.contains("OPTION_B"))
         XCTAssertTrue(variables.contains("test-123"))
+    }
+
+    func testExtractVariablesWithNonASCIICharacters() throws {
+        // Test that non-ASCII characters are properly handled in variables
+        let extractor = GraphQLMetadataExtractor()
+        let variables: [String: GraphQLOperationVariableValue] = [
+            "userId": "user-123",
+            "name": "José García",
+            "city": "São Paulo",
+            "description": "Test with émojis 🎉 and spëcial çhars"
+        ]
+        let operation = MockQueryOperation(variables: variables)
+
+        let result = extractor.extractVariables(from: operation)
+
+        XCTAssertNotNil(result)
+        guard let variablesJson = result else {
+            XCTFail("Expected non-nil variables")
+            return
+        }
+
+        // Verify non-ASCII characters are preserved in the JSON output
+        XCTAssertTrue(variablesJson.contains("José García"))
+        XCTAssertTrue(variablesJson.contains("São Paulo"))
+        XCTAssertTrue(variablesJson.contains("🎉"))
+        XCTAssertTrue(variablesJson.contains("émojis"))
+        XCTAssertTrue(variablesJson.contains("spëcial"))
+        XCTAssertTrue(variablesJson.contains("çhars"))
     }
 }
