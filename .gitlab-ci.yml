@@ -6,8 +6,10 @@ stages:
   - release-publish
 
 variables:
-  MAIN_BRANCH: "main"
-  DEVELOP_BRANCH: "develop"
+  V1_BRANCH: "v1"
+  V2_BRANCH: "v2"
+  DEVELOP_V1_BRANCH: "develop"
+  DEVELOP_V2_BRANCH: "develop-v2"
   DEFAULT_XCODE: "16.2.0"
   DEFAULT_IOS_OS: "18.3.1"
   # Prefilled variables for running a pipeline manually:
@@ -30,7 +32,7 @@ default:
 # Define rules for including jobs in the pipeline
 .test-pipeline-job:
   rules:
-    - if: '$CI_COMMIT_BRANCH == $DEVELOP_BRANCH || $CI_COMMIT_BRANCH == $MAIN_BRANCH' # always on main branches
+    - if: '$CI_COMMIT_BRANCH == $DEVELOP_V1_BRANCH || $CI_COMMIT_BRANCH == $DEVELOP_V2_BRANCH || $CI_COMMIT_BRANCH == $V1_BRANCH || $CI_COMMIT_BRANCH == $V2_BRANCH' # always on main branches
     - if: '$CI_COMMIT_BRANCH' # when on other branch with following changes compared to develop
       changes:
         paths:
