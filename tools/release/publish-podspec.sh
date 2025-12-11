@@ -18,18 +18,17 @@ source ./tools/secrets/get-secret.sh
 
 set_description "Publishes podspec to Cocoapods trunk."
 define_arg "podspec-name" "" "The name of podspec file to publish." "string" "true"
-define_arg "artifacts-path" "" "The path to build artifacts." "string" "true"
 
 check_for_help "$@"
 parse_args "$@"
 
-REPO_PATH="$artifacts_path/dd-sdk-ios-apollo-interceptor"
+REPO_PATH="$(pwd)"
 PODSPEC_PATH="$REPO_PATH/$podspec_name"
 
 authenticate() {
     echo_subtitle "Authenticate 'pod trunk' CLI"
     echo_info "Exporting 'COCOAPODS_TRUNK_TOKEN' for CI"
-    export COCOAPODS_TRUNK_TOKEN=$(get_secret $DD_IOS_SECRET__CP_TRUNK_TOKEN)
+    export COCOAPODS_TRUNK_TOKEN=$(get_secret $DD_APOLLO_SECRET__CP_TRUNK_TOKEN)
     echo_info "▸ bundle exec pod trunk me" && bundle exec pod trunk me
     if [[ $? -ne 0 ]]; then
         echo_err "Error: 'pod trunk' is not authenticated."
