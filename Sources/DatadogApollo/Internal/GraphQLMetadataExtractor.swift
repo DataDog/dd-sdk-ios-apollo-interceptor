@@ -6,9 +6,9 @@
 
 import Foundation
 import Apollo
-#if !COCOAPODS
+@_spi(Internal)
+@_spi(Unsafe)
 import ApolloAPI
-#endif
 
 /// Utility for extracting GraphQL operation metadata for monitoring purposes.
 internal struct GraphQLMetadataExtractor {
