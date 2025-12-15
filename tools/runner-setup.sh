@@ -16,7 +16,6 @@
 set -eo pipefail
 source ./tools/utils/echo-color.sh
 source ./tools/utils/argparse.sh
-source ./tools/secrets/get-secret.sh
 
 set_description "This script supplements missing components on the runner before they are included through the AMI."
 define_arg "xcode" "" "Specify the Xcode version to activate." "string" "false"

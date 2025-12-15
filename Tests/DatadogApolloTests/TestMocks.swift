@@ -5,6 +5,8 @@
  */
 
 import Foundation
+@_spi(Execution)
+@_spi(Unsafe)
 @preconcurrency import ApolloAPI
 
 // MARK: - Mock Data Structures
@@ -26,32 +28,32 @@ internal enum MockSchemaConfiguration: ApolloAPI.SchemaConfiguration {
 }
 
 /// Mock root selection set for GraphQL operations  
-internal final class MockData: RootSelectionSet {
+internal struct MockData: RootSelectionSet {
     typealias Schema = MockSchema
 
-    let __data: DataDict
+    let __data: ApolloAPI.DataDict
 
-    required init(_dataDict: DataDict) {
+    init(_dataDict: ApolloAPI.DataDict) {
         self.__data = _dataDict
     }
 
-    convenience init() {
-        self.init(_dataDict: DataDict(data: [:], fulfilledFragments: Set()))
+    init() {
+        self.init(_dataDict: ApolloAPI.DataDict(data: [:], fulfilledFragments: []))
     }
 
     static var __parentType: any ApolloAPI.ParentType {
         ApolloAPI.Object(typename: "Query", implementedInterfaces: [])
     }
-
     static var __selections: [ApolloAPI.Selection] { [] }
-
-    static var __fulfilledFragments: [any SelectionSet.Type] { [Self.self] }
+    static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [MockData.self] }
+    static var __deferredFragments: [any ApolloAPI.Deferrable.Type] { [] }
+    var _fieldData: ApolloAPI.DataDict.FieldValue { __data }
 }
 
 // MARK: - Mock GraphQL Operations for Testing
 
 /// Mock query operation for testing GraphQL metadata extraction
-internal class MockQueryOperation: GraphQLOperation {
+internal struct MockQueryOperation: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = "GetUser"
@@ -68,7 +70,7 @@ internal class MockQueryOperation: GraphQLOperation {
 }
 
 /// Mock mutation operation for testing GraphQL metadata extraction
-internal class MockMutationOperation: GraphQLOperation {
+internal struct MockMutationOperation: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = "UpdateUser"
@@ -85,7 +87,7 @@ internal class MockMutationOperation: GraphQLOperation {
 }
 
 /// Mock subscription operation for testing GraphQL metadata extraction
-internal class MockSubscriptionOperation: GraphQLOperation {
+internal struct MockSubscriptionOperation: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = "UserUpdated"
@@ -102,7 +104,7 @@ internal class MockSubscriptionOperation: GraphQLOperation {
 }
 
 /// Mock operation with empty operation name for testing edge cases
-internal class MockEmptyOperation: GraphQLOperation {
+internal struct MockEmptyOperation: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = ""
@@ -119,7 +121,7 @@ internal class MockEmptyOperation: GraphQLOperation {
 }
 
 /// Mock operation with no variables for testing
-internal class MockNoVariablesOperation: GraphQLOperation {
+internal struct MockNoVariablesOperation: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = "GetAllUsers"
@@ -134,14 +136,22 @@ internal class MockNoVariablesOperation: GraphQLOperation {
 // MARK: - Mock GraphQL Enum for Testing
 
 /// Mock enum for testing GraphQLEnum serialization
-internal enum MockEnumValue: String, Sendable, EnumType {
+internal enum MockEnumValue: String, CaseIterable, Sendable, EnumType {
     case optionA = "OPTION_A"
     case optionB = "OPTION_B"
     case optionC = "OPTION_C"
+
+    var _jsonEncodableValue: (any ApolloAPI.JSONEncodable)? {
+        return self.rawValue
+    }
+
+    var _jsonValue: ApolloAPI.JSONValue {
+        return self.rawValue
+    }
 }
 
 /// Mock operation with GraphQLEnum variables for testing serialization
-internal class MockOperationWithGraphQLEnum: GraphQLOperation {
+internal struct MockOperationWithGraphQLEnum: GraphQLOperation {
     typealias Data = MockData
 
     static let operationName: String = "QueryWithEnum"

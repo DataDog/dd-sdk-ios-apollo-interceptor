@@ -50,11 +50,6 @@ check_if_installed gh
 gh --version
 
 echo ""
-echo_succ "bundler:"
-check_if_installed bundler
-bundler --version
-
-echo ""
 echo_succ "python3:"
 check_if_installed python3
 python3 -V
@@ -88,9 +83,6 @@ if [ "$CI" = "true" ]; then
     echo_succ "dd-octo-sts:"
     check_if_installed dd-octo-sts
     dd-octo-sts version
-
-    # Check if all secrets are available:
-    ./tools/secrets/check-secrets.sh
 
     echo_subtitle "Print CI env"
     # GitLab:
