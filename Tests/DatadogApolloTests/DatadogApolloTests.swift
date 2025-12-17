@@ -152,4 +152,37 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         XCTAssertTrue(variablesJson.contains("spëcial"))
         XCTAssertTrue(variablesJson.contains("çhars"))
     }
+
+    func testExtractVariablesWithGraphQLNullableNone() throws {
+            // Test that GraphQLNullable<String>.none is properly serialized to JSON as null
+        let extractor = GraphQLMetadataExtractor()
+        let operation = MockOperationWithGraphQLNullable(id: "item-456", optionalName: .none)
+
+        let result = extractor.extractVariables(from: operation)
+
+        XCTAssertNotNil(result)
+        guard let variablesJson = result else {
+            XCTFail("Expected non-nil variables")
+            return
+        }
+
+        // Verify the ID is present
+        XCTAssertTrue(variablesJson.contains("item-456"))
+        XCTAssertTrue(variablesJson.contains("optionalName"))
+
+        // Verify the nullable .none value is serialized as proper JSON null
+        XCTAssertTrue(variablesJson.contains("null"), "Expected 'null' in JSON output but got: \(variablesJson)")
+
+        // Additionally verify it's valid JSON that can be parsed back
+        guard let jsonData = variablesJson.data(using: .utf8),
+              let parsedJson = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
+            XCTFail("Expected valid JSON output")
+            return
+        }
+
+        // Verify the parsed JSON has the expected structure
+        XCTAssertEqual(parsedJson["id"] as? String, "item-456")
+        XCTAssertTrue(parsedJson.keys.contains("optionalName"))
+        XCTAssertTrue(parsedJson["optionalName"] is NSNull, "Expected NSNull for optionalName but got: \(String(describing: parsedJson["optionalName"]))")
+    }
 }
