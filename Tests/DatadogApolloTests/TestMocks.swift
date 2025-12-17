@@ -169,3 +169,23 @@ internal struct MockOperationWithGraphQLEnum: GraphQLOperation {
         ]
     }
 }
+
+/// Mock operation with GraphQLNullable variables for testing nullable serialization
+internal struct MockOperationWithGraphQLNullable: GraphQLOperation {
+    typealias Data = MockData
+
+    static let operationName: String = "QueryWithNullable"
+    static let operationType: GraphQLOperationType = .query
+    static let operationDocument: ApolloAPI.OperationDocument = .init(
+        definition: .init("query QueryWithNullable($id: ID!, $optionalName: String) { item(id: $id, optionalName: $optionalName) { id name } }")
+    )
+
+    var __variables: [String: GraphQLOperationVariableValue]?
+
+    init(id: String, optionalName: GraphQLNullable<String>) {
+        self.__variables = [
+            "id": id,
+            "optionalName": optionalName
+        ]
+    }
+}
