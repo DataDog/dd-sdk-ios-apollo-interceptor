@@ -110,7 +110,7 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         XCTAssertTrue(payload.contains("user(id: $userId)"))
     }
 
-    // MARK: - GraphQL Enum Variables Tests
+    // MARK: - GraphQL Variables Tests
 
     func testExtractVariablesWithGraphQLEnum() throws {
         // Test that GraphQLEnum types are properly serialized to JSON
@@ -128,5 +128,66 @@ public final class DatadogApolloInterceptorTests: XCTestCase {
         // Verify the enum is serialized as its string value
         XCTAssertTrue(variables.contains("OPTION_B"))
         XCTAssertTrue(variables.contains("test-123"))
+    }
+
+    func testExtractVariablesWithNonASCIICharacters() throws {
+        // Test that non-ASCII characters are properly handled in variables
+        let extractor = GraphQLMetadataExtractor()
+        let variables: [String: GraphQLOperationVariableValue] = [
+            "userId": "user-123",
+            "name": "José García",
+            "city": "São Paulo",
+            "description": "Test with émojis 🎉 and spëcial çhars"
+        ]
+        let operation = MockQueryOperation(variables: variables)
+
+        let result = extractor.extractVariables(from: operation)
+
+        XCTAssertNotNil(result)
+        guard let variablesJson = result else {
+            XCTFail("Expected non-nil variables")
+            return
+        }
+
+        // Verify non-ASCII characters are preserved in the JSON output
+        XCTAssertTrue(variablesJson.contains("José García"))
+        XCTAssertTrue(variablesJson.contains("São Paulo"))
+        XCTAssertTrue(variablesJson.contains("🎉"))
+        XCTAssertTrue(variablesJson.contains("émojis"))
+        XCTAssertTrue(variablesJson.contains("spëcial"))
+        XCTAssertTrue(variablesJson.contains("çhars"))
+    }
+
+    func testExtractVariablesWithGraphQLNullableNone() throws {
+        // Test that GraphQLNullable<String>.none is properly serialized to JSON as null
+        let extractor = GraphQLMetadataExtractor()
+        let operation = MockOperationWithGraphQLNullable(id: "item-456", optionalName: .none)
+
+        let result = extractor.extractVariables(from: operation)
+
+        XCTAssertNotNil(result)
+        guard let variablesJson = result else {
+            XCTFail("Expected non-nil variables")
+            return
+        }
+
+        // Verify the ID is present
+        XCTAssertTrue(variablesJson.contains("item-456"))
+        XCTAssertTrue(variablesJson.contains("optionalName"))
+
+        // Verify the nullable .none value is serialized as proper JSON null
+        XCTAssertTrue(variablesJson.contains("null"), "Expected 'null' in JSON output but got: \(variablesJson)")
+
+        // Additionally verify it's valid JSON that can be parsed back
+        guard let jsonData = variablesJson.data(using: .utf8),
+              let parsedJson = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
+            XCTFail("Expected valid JSON output")
+            return
+        }
+
+        // Verify the parsed JSON has the expected structure
+        XCTAssertEqual(parsedJson["id"] as? String, "item-456")
+        XCTAssertTrue(parsedJson.keys.contains("optionalName"))
+        XCTAssertTrue(parsedJson["optionalName"] is NSNull, "Expected NSNull for optionalName but got: \(String(describing: parsedJson["optionalName"]))")
     }
 }

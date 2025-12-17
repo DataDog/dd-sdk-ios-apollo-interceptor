@@ -80,11 +80,9 @@ smoke-test-ios-all:
 
 # Publish Cocoapods podspecs to trunk
 release-publish-podspecs:
-	@$(call require_param,ARTIFACTS_PATH)
 	@:$(eval DRY_RUN ?= 1)
-	@$(ECHO_TITLE) "make release-publish-podspecs ARTIFACTS_PATH='$(ARTIFACTS_PATH)' DRY_RUN='$(DRY_RUN)'"
+	@$(ECHO_TITLE) "make release-publish-podspecs DRY_RUN='$(DRY_RUN)'"
 	DRY_RUN=$(DRY_RUN) ./tools/release/publish-podspec.sh \
-		--artifacts-path "$(ARTIFACTS_PATH)" \
 		--podspec-name "DatadogApollo.podspec"
 
 bump:
