@@ -7,8 +7,8 @@ stages:
 variables:
   V1_BRANCH: "v1"
   V2_BRANCH: "v2"
-  DEVELOP_V1_BRANCH: "develop"
-  DEVELOP_V2_BRANCH: "develop-v2"
+  DEVELOP_V1_BRANCH: "develop-v1"
+  DEVELOP_V2_BRANCH: "develop"
   DEFAULT_XCODE: "16.3.0"
   DEFAULT_IOS_OS: "18.4"
   # Prefilled variables for running a pipeline manually:
