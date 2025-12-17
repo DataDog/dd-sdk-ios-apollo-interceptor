@@ -1,5 +1,7 @@
 # Unreleased
 
+# 1.0.1 / 17-12-2025
+
 - [FIX] Fix crash when extracting variables with `GraphQLNullable.none` values. See [#32][] (Thanks [@dfed][])
 
 # 1.0.0 / 9-12-2025
