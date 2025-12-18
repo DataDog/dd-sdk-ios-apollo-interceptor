@@ -1,6 +1,5 @@
 # Unreleased
 
-# 1.0.1 / 17-12-2025
 - [FIX] Use string representation for `GraphQLNullable.none` to distinguish from `.null`
 
 # 2.0.0 / 17-12-2025
