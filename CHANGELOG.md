@@ -1,5 +1,7 @@
 # Unreleased
 
+- [FIX] Use string representation for `GraphQLNullable.none` to distinguish from `.null`
+
 # 2.0.0 / 17-12-2025
 
 Initial release of Datadog Integration for Apollo iOS supporting Apollo 2.0+.
