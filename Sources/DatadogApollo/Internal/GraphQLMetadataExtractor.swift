@@ -30,8 +30,8 @@ internal struct GraphQLMetadataExtractor {
             if let jsonValue = variableValue._jsonEncodableValue?._jsonValue {
                 return jsonValue
             }
-            // Fallback to NSNull for values that don't have a JSON representation
-            return NSNull()
+            // Fallback to string representation to preserve semantic information
+            return String(describing: variableValue)
         }
 
         do {
