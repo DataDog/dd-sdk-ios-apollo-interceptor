@@ -15,7 +15,7 @@ import Foundation
 ///
 /// - Note: Must be used with `DatadogApolloURLSession` and registered via
 ///   `URLSessionInstrumentation.enable(with: .init(delegateClass: DatadogApolloDelegate.self))`
-public final class DatadogApolloDelegate: NSObject, URLSessionDataDelegate {
+public final class DatadogApolloDelegate: NSObject, URLSessionDataDelegate, @unchecked Sendable {
     private var taskData: [URLSessionTask: Data] = [:]
     private var taskContinuations: [URLSessionTask: CheckedContinuation<(Data, URLResponse), Error>] = [:]
     private let lock = NSLock()
