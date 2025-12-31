@@ -28,7 +28,7 @@ public final class DatadogApolloDelegate: NSObject, URLSessionDataDelegate, @unc
     /// - Parameters:
     ///   - task: The URLSessionTask to track
     ///   - continuation: The continuation to resume when the task completes
-    public func registerContinuation(for task: URLSessionTask, continuation: CheckedContinuation<(Data, URLResponse), Error>) {
+    internal func registerContinuation(for task: URLSessionTask, continuation: CheckedContinuation<(Data, URLResponse), Error>) {
         lock.lock()
         defer { lock.unlock() }
         taskContinuations[task] = continuation

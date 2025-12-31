@@ -1,5 +1,6 @@
 # Unreleased
 
+- [IMPROVEMENT] Add `DatadogApolloDelegate` and `DatadogApolloURLSession` for Apollo iOS v2 network instrumentation support
 - [FIX] Use string representation for `GraphQLNullable.none` to distinguish from `.null`
 
 # 2.0.0 / 17-12-2025
