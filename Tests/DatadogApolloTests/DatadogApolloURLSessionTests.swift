@@ -11,11 +11,16 @@ import Apollo
 
 public final class DatadogApolloURLSessionTests: XCTestCase {
     func testURLSessionInitialization() throws {
-        let delegate = DatadogApolloDelegate()
         let config = URLSessionConfiguration.default
-        let urlSession = DatadogApolloURLSession(configuration: config, delegate: delegate)
 
-        XCTAssertNotNil(urlSession)
+        // Test with explicit delegate
+        let delegate = DatadogApolloDelegate()
+        let urlSessionWithDelegate = DatadogApolloURLSession(configuration: config, delegate: delegate)
+        XCTAssertNotNil(urlSessionWithDelegate)
+
+        // Test with default delegate
+        let urlSessionWithDefaultDelegate = DatadogApolloURLSession(configuration: config)
+        XCTAssertNotNil(urlSessionWithDefaultDelegate)
     }
 
     func testChunksMethodReturnsAsyncSequence_WithDelegateCallbacks() async throws {

@@ -26,7 +26,7 @@ public final class DatadogApolloURLSession: NSObject, ApolloURLSession {
     /// - Parameters:
     ///   - configuration: The URLSessionConfiguration to use for network requests
     ///   - delegate: The DatadogApolloDelegate that will handle network callbacks and be swizzled by Datadog
-    public init(configuration: URLSessionConfiguration, delegate: DatadogApolloDelegate) {
+    public init(configuration: URLSessionConfiguration, delegate: DatadogApolloDelegate = .init()) {
         self.delegate = delegate
         self.urlSession = URLSession(
             configuration: configuration,
