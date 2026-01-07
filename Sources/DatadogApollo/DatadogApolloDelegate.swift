@@ -15,7 +15,7 @@ import Foundation
 ///
 /// - Note: Must be used with `DatadogApolloURLSession` and registered via
 ///   `URLSessionInstrumentation.enable(with: .init(delegateClass: DatadogApolloDelegate.self))`
-public final class DatadogApolloDelegate: NSObject, URLSessionDataDelegate, @unchecked Sendable {
+open class DatadogApolloDelegate: NSObject, URLSessionDataDelegate, @unchecked Sendable {
     private var taskData: [URLSessionTask: Data] = [:]
     private var taskContinuations: [URLSessionTask: CheckedContinuation<(Data, URLResponse), Error>] = [:]
     private let lock = NSLock()
@@ -40,7 +40,7 @@ public final class DatadogApolloDelegate: NSObject, URLSessionDataDelegate, @unc
     /// Called when data is received for a data task.
     ///
     /// This method will be swizzled by Datadog to capture network data for RUM monitoring.
-    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+    open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         lock.lock()
         defer { lock.unlock() }
         taskData[dataTask]?.append(data)
@@ -49,7 +49,7 @@ public final class DatadogApolloDelegate: NSObject, URLSessionDataDelegate, @unc
     /// Called when a task completes with or without error.
     ///
     /// This method will be swizzled by Datadog to capture completion events and metrics.
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         lock.lock()
         let continuation = taskContinuations.removeValue(forKey: task)
         let data = taskData.removeValue(forKey: task) ?? Data()
