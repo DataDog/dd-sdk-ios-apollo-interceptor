@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "DatadogApollo"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "Datadog Integration for Apollo iOS GraphQL Client."
 
   s.homepage     = "https://www.datadoghq.com"
