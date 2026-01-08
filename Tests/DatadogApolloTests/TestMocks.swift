@@ -189,3 +189,25 @@ internal struct MockOperationWithGraphQLNullable: GraphQLOperation {
         ]
     }
 }
+
+// MARK: - Mock URLSession Components
+
+/// Mock URLSessionDataTask for testing delegate behavior
+internal class MockURLSessionDataTask: URLSessionTask, @unchecked Sendable {
+    private let _response: URLResponse?
+    private let _originalRequest: URLRequest?
+
+    init(url: URL, response: URLResponse?) {
+        self._response = response
+        self._originalRequest = URLRequest(url: url)
+        super.init()
+    }
+
+    override var response: URLResponse? {
+        return _response
+    }
+
+    override var originalRequest: URLRequest? {
+        return _originalRequest
+    }
+}
