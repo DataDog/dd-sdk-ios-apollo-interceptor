@@ -53,7 +53,7 @@ SLACK_WEBHOOK_URL=
 # Slack channel ID (where to post notifications)
 SLACK_CHANNEL_ID=
 
-# Github repository (optional, defaults to DataDog/dd-sdk-ios)
+# Github repository (optional, defaults to DataDog/dd-sdk-ios-apollo-interceptor)
 GITHUB_REPOSITORY=
 ```
 
@@ -119,7 +119,7 @@ The GitHub Action uses repository secrets for authentication. These are already 
 - `OPENAI_SYSTEM_PROMPT`
 - `SLACK_WEBHOOK_URL`
 - `SLACK_CHANNEL_ID`
-- `GITHUB_REPOSITORY` (defaults to `DataDog/dd-sdk-ios`)
+- `GITHUB_REPOSITORY` (defaults to `DataDog/dd-sdk-ios-apollo-interceptor`)
 
 ## Output
 

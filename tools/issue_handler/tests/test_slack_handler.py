@@ -30,9 +30,9 @@ class TestSlackHandler:
     
     def test_build_github_url_success(self):
         """Test successful GitHub URL building."""
-        with patch.dict(os.environ, {'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios'}):
+        with patch.dict(os.environ, {'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios-apollo-interceptor'}):
             result = self.handler._build_github_url(self.test_issue)
-            assert result == "https://github.com/DataDog/dd-sdk-ios/issues/123"
+            assert result == "https://github.com/DataDog/dd-sdk-ios-apollo-interceptor/issues/123"
     
     def test_build_github_url_missing_repository(self):
         """Test error when GITHUB_REPOSITORY is missing."""
@@ -193,7 +193,7 @@ class TestSlackHandler:
         }
         
         # Mock environment for URL building
-        with patch.dict(os.environ, {'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios'}):
+        with patch.dict(os.environ, {'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios-apollo-interceptor'}):
             self.handler.post_issue_with_analysis(self.test_issue, analysis)
         
         # Verify Slack API call
@@ -240,7 +240,7 @@ class TestSlackHandler:
         }
         
         # Mock environment for URL building
-        with patch.dict(os.environ, {'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios'}):
+        with patch.dict(os.environ, {'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios-apollo-interceptor'}):
             with pytest.raises(SlackError, match="Failed to post to Slack"):
                 self.handler.post_issue_with_analysis(self.test_issue, analysis)
 

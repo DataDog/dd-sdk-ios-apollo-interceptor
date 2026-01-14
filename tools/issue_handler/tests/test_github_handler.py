@@ -18,7 +18,7 @@ class TestGithubHandler:
     
     def setup_method(self):
         """Set up test fixtures."""
-        self.handler = GithubHandler("test_token", "DataDog/dd-sdk-ios")
+        self.handler = GithubHandler("test_token", "DataDog/dd-sdk-ios-apollo-interceptor")
     
     def test_valid_issue_number(self):
         """Test that valid issue numbers are accepted."""
@@ -60,7 +60,7 @@ class TestGithubHandler:
             "title": "Test Issue",
             "body": "This is a test issue body",
             "user": {"login": "testuser"},
-            "html_url": "https://github.com/DataDog/dd-sdk-ios/issues/123"
+            "html_url": "https://github.com/DataDog/dd-sdk-ios-apollo-interceptor/issues/123"
         }
         mock_get.return_value = mock_response
         
@@ -73,7 +73,7 @@ class TestGithubHandler:
         assert result.title == "Test Issue"
         assert result.body == "This is a test issue body"
         assert result.user == "testuser"
-        assert result.html_url == "https://github.com/DataDog/dd-sdk-ios/issues/123"
+        assert result.html_url == "https://github.com/DataDog/dd-sdk-ios-apollo-interceptor/issues/123"
         
         # Verify API call
         mock_get.assert_called_once()
@@ -143,7 +143,7 @@ class TestGithubHandlerFactory:
     
     @patch.dict(os.environ, {
         'GITHUB_TOKEN': 'test_token',
-        'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios'
+        'GITHUB_REPOSITORY': 'DataDog/dd-sdk-ios-apollo-interceptor'
     })
     def test_create_github_handler_success(self):
         """Test successful handler creation."""
@@ -151,7 +151,7 @@ class TestGithubHandlerFactory:
         
         handler = create_github_handler()
         assert handler.token == 'test_token'
-        assert handler.repository == 'DataDog/dd-sdk-ios'
+        assert handler.repository == 'DataDog/dd-sdk-ios-apollo-interceptor'
     
     @patch.dict(os.environ, {}, clear=True)
     def test_create_github_handler_missing_token(self):

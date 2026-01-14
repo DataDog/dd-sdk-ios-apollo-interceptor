@@ -56,7 +56,7 @@ def main():
     except Exception as e:
         print(f"\nError: {str(e)}")
         if "GITHUB_REPOSITORY" in str(e):
-            print("\nMake sure GITHUB_REPOSITORY is set in your .env file (e.g., 'DataDog/dd-sdk-ios')")
+            print("\nMake sure GITHUB_REPOSITORY is set in your .env file (e.g., 'DataDog/dd-sdk-ios-apollo-interceptor')")
 
 if __name__ == "__main__":
     main() 
