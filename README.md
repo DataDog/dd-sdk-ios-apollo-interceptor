@@ -105,7 +105,7 @@ struct NetworkInterceptorProvider: InterceptorProvider {
 }
 ```
 > [!NOTE]
-> This automatically adds Datadog headers to your GraphQL requests, enabling them to be tracked by Datadog. Note that while `query` and `mutation` operations are tracked, `subscription` operations are not.
+> This lets Datadog RUM extract Operation type, name, variables and Payloads (optional) automatically from the requests to enrich GraphQL Requests RUM Resources. Note that while `query` and `mutation` operations are tracked, `subscription` operations are not.
 
 ## Sending GraphQL payloads
 
