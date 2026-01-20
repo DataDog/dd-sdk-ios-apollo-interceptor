@@ -33,8 +33,8 @@ def test_slack_webhook():
         
         # Create a mock issue for testing
         mock_issue = GithubIssue(
-            title="Test Issue: iOS SDK Integration Problem",
-            body="I'm having trouble integrating the Datadog iOS SDK into my project. I followed the documentation but I'm getting build errors. Can someone help me?",
+            title="Test Issue: iOS Apollo Interceptor Integration Problem",
+            body="I'm having trouble integrating the Datadog iOS Apollo Interceptor into my project. I followed the documentation but I'm getting build errors. Can someone help me?",
             html_url="https://github.com/DataDog/dd-sdk-ios-apollo-interceptor/issues/1234",
             number=1234,
             user="testuser"
