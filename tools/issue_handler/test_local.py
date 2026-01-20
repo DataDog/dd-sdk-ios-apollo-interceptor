@@ -42,8 +42,8 @@ def test_slack_webhook():
         
         # Create mock analysis
         mock_analysis = {
-            "summary": "User is experiencing build errors when integrating the Datadog iOS SDK into their project.",
-            "suggested_response": "Hi! I'd be happy to help you with the iOS SDK integration. Could you please share:\n1. The specific build error messages you're seeing\n2. Your iOS version and Xcode version\n3. How you're integrating the SDK (CocoaPods, SPM, or manual)\n4. Your current Podfile or Package.swift configuration\n\nThis will help me provide a more targeted solution.",
+            "summary": "User is experiencing build errors when integrating the Datadog iOS Apollo Interceptor into their project.",
+            "suggested_response": "Hi! I'd be happy to help you with the iOS Apollo Interceptor integration. Could you please share:\n1. The specific build error messages you're seeing\n2. Your iOS version and Xcode version\n3. How you're integrating the SDK (CocoaPods, SPM, or manual)\n4. Your current Podfile or Package.swift configuration\n\nThis will help me provide a more targeted solution.",
             "confidence_level": "medium"
         }
         
