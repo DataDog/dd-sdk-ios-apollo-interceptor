@@ -1,6 +1,6 @@
 # GitHub Issue Handler
 
-A tool that automatically analyzes new GitHub issues for the Datadog iOS Apollo Interceptor using OpenAI and posts summaries to Slack.
+A tool for the Datadog iOS Apollo Interceptor repository that analyzes new GitHub issues using OpenAI and posts summaries to Slack.
 
 ## Features
 
@@ -30,13 +30,13 @@ pip install -r requirements.txt
 
 ### 3. Configure Environment
 
-First, create your local environment file:
+Create your local environment file:
 ```bash
 # Create .env file from template
 ./setup_env.sh
 ```
 
-This creates a `.env` file that you will need to fill with the required tokens. The file looks like the following:
+This creates a `.env` file like the following:
 ```bash
 # GitHub token with repo access
 GITHUB_TOKEN=
@@ -57,9 +57,9 @@ SLACK_CHANNEL_ID=
 GITHUB_REPOSITORY=
 ```
 
-### 4. Required Tokens
+### 4. Set Variables
 
-You need several tokens to use the tool locally. See the instructions below to get each token:
+Complete the following steps to retrieve and set the required values in your `.env` file.
 
 #### GitHub Token
 1. Go to [GitHub Settings > Developer Settings > Personal Access Tokens](https://github.com/settings/tokens)
@@ -79,14 +79,14 @@ You need several tokens to use the tool locally. See the instructions below to g
 The iOS SDK team already has a Slack app configured for this tool. You need:
 
 1. **Slack Webhook URL**:
-   - Create a webhook in your Slack workspace: https://api.slack.com/apps
+   - Navigate to https://api.slack.com/apps
    - Go to "Incoming Webhooks", and create a new webhook
    - Copy the webhook URL (starts with `https://hooks.slack.com/services/`)
    - Store it securely, and never commit it
 
 2. **Slack Channel Setup**:
    - Get the channel ID by clicking the channel's details in Slack, and copy the ID at the bottom
-   - The ID starts with "C" (for example, "C12345678")
+     - The ID starts with "C" (for example, "C12345678")
    - Invite the bot to your channel: `/invite @bot-name`
 
 Note: If you need to post to a new channel, make sure to:
@@ -97,7 +97,7 @@ Note: If you need to post to a new channel, make sure to:
 
 ### Run Manually
 
-Make sure your virtual environment is activated, then analyze a specific issue:
+Activate your virtual environment, then analyze a specific issue:
 ```bash
 python src/analyze_issue.py ISSUE_NUMBER
 ```
@@ -124,8 +124,8 @@ The GitHub Action uses repository secrets for authentication. These are already 
 ## Output
 
 For each issue, the tool does the following:
-1. Analyze the issue using OpenAI
-2. Post a message to Slack containing:
+1. Analyzes the issue using OpenAI
+2. Posts a message to Slack containing:
    - GitHub issue notification
    - Analysis summary
    - Suggested response
@@ -142,10 +142,10 @@ For each issue, the tool does the following:
 ### Architecture
 
 Main Components:
-- analyze_issue.py - Main entry point that orchestrates the workflow
-- github_handler.py - Fetches GitHub issue details via API
-- openai_handler.py - Analyzes issues using OpenAI
-- slack_handler.py - Posts notifications and analysis to Slack
+- `analyze_issue.py` - Main entry point that orchestrates the workflow
+- `github_handler.py` - Fetches GitHub issue details via API
+- `openai_handler.py` - Analyzes issues using OpenAI
+- `slack_handler.py` - Posts notifications and analysis to Slack
 
 ### Workflow 
 
@@ -163,7 +163,7 @@ Main Components:
 
 ## Running Tests
 
-Make sure your virtual environment is activated, then run all tests:
+Activate your virtual environment, then run all tests:
 ```bash
 pytest tests/
 ```
